@@ -17,18 +17,51 @@
 </header>
 
 <body>
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        require_once('UsuarioService.php');
+        $telefono = $_POST['telefono'];
+        $contraseña = $_POST['password'];
+        $avatar = $_POST['avatar'];
+
+        // Recuperar el nombre del archivo
+        $nombreArchivo = $avatar['name'];
+
+        // Recuperar el temporal
+        $avatarTmp = $avatar['tmp_name'];
+
+        // Ruta avatar
+        $carpetaDestino = "img/$nombreArchivo";
+
+        if (file_exists($carpetaDestino)) {
+            mkdir($carpetaDestino, 0777, true);
+        }
+
+        // Mover el archivo
+        move_uploaded_file($avatarTmp, $carpetaDestino);
+
+        if (guardarContacto($telefono, $contraseña, $carpetaDestino)) {
+            echo "Contacto guardado con exito";
+            header("Location: Login.php");
+        } else {
+            echo "No se ha podido registrar el contacto";
+        }
+
+    }
+
+    ?>
     <form action="" method="post">
         <div>
-        <label for="telefono">Teléfono</label>
-        <input type="tel" name="telefono" id="telefono" required>
+            <label for="telefono">Teléfono</label>
+            <input type="tel" name="telefono" id="telefono" required>
         </div>
         <div>
-        <label for="password">Contraseña</label>
-        <input type="password" name="password" id="password" required>
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" required>
         </div>
         <div>
-        <label for="avatar">Avatar</label>
-        <input type="file" name="avatar" id="avatar" accept="image/*" required>
+            <label for="avatar">Avatar</label>
+            <input type="file" name="avatar" id="avatar" accept="image/*" required>
         </div>
         <input type="submit" value="Crear Contacto">
         <a href="Login.php">Volver al Login</a>

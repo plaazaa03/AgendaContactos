@@ -17,6 +17,23 @@
 </header>
 
 <body>
+    <?php
+    session_start();
+    require_once("UsuarioServices.php");
+    $telefono = $_POST['telefono'];
+    $contraseña = $_POST['contraseña'];
+
+    $usuario = iniciarSesion($telefono, $contraseña);
+
+    if ($usuario) {
+        $_SESSION['usuario'] = $usuario;
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "<p id='error'>Telefono o contraseña incorrectas</p>";
+    }
+
+    ?>
     <form action="" method="post">
         <div>
         <label for="telefono">Teléfono</label>
