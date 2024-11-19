@@ -4,10 +4,13 @@ class Usuario {
     private $telefono;
     private $password;
 
-    public function __construct($id, $telefono, $password) {
+    private $avatar;
+
+    public function __construct($id, $telefono, $password, $avatar) {
         $this->id = $id;
         $this->telefono = $telefono;
         $this->password = $password;
+        $this->avatar = $avatar;
     }
 
     public function getId() {
@@ -20,6 +23,10 @@ class Usuario {
 
     public function getPassword() {
         return $this->password;
+    }
+
+    public function getAvatar() {
+        return $this->avatar;
     }
 }
 ?>

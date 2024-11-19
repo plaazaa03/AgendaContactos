@@ -19,29 +19,32 @@
 <body>
     <?php
     session_start();
-    require_once("UsuarioServices.php");
-    $telefono = $_POST['telefono'];
-    $contraseña = $_POST['contraseña'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $usuario = iniciarSesion($telefono, $contraseña);
+        require_once("UsuarioServices.php");
+        $telefono = $_POST['telefono'];
+        $contraseña = $_POST['contraseña'];
 
-    if ($usuario) {
-        $_SESSION['usuario'] = $usuario;
-        header("Location: index.php");
-        exit();
-    } else {
-        echo "<p id='error'>Telefono o contraseña incorrectas</p>";
+        $usuario = iniciarSesion($telefono, $contraseña);
+
+        if ($usuario) {
+            $_SESSION['usuario'] = $usuario;
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "<p id='error'>Telefono o contraseña incorrectas</p>";
+        }
     }
 
     ?>
     <form action="" method="post">
         <div>
-        <label for="telefono">Teléfono</label>
-        <input type="tel" name="telefono" id="telefono" required>
+            <label for="telefono">Teléfono</label>
+            <input type="tel" name="telefono" id="telefono" required>
         </div>
         <div>
-        <label for="password">Contraseña</label>
-        <input type="password" name="password" id="password" required>
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" required>
         </div>
         <input type="submit" value="Iniciar Sesión">
         <a href="Registro.php">Registrarse</a>

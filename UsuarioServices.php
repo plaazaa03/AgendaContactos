@@ -43,7 +43,7 @@ function iniciarSesion($telefono, $contraseña) {
 function guardarContacto($telefono, $contraseña, $carpetaDestino) {
     $conexion = conectarBD();
 
-    $sql = "INSERT INTO Usuario (telefono, contraseña, foto) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO Usuario (telefono, password, avatar) VALUES (?, ?, ?)";
     $queryFormateada = $conexion -> prepare($sql);
     $queryFormateada -> bind_param("iss", $telefono, $contraseña, $carpetaDestino);
     $seHaEjecutadoLaQuery = $queryFormateada -> execute();
