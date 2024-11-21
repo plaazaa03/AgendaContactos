@@ -40,12 +40,12 @@ function iniciarSesion($telefono, $contraseña) {
     }
 }
 
-function guardarContacto($telefono, $contraseña, $carpetaDestino) {
+function guardarContacto($telefono, $contraseña, $avatar) {
     $conexion = conectarBD();
 
     $sql = "INSERT INTO Usuario (telefono, password, avatar) VALUES (?, ?, ?)";
     $queryFormateada = $conexion -> prepare($sql);
-    $queryFormateada -> bind_param("iss", $telefono, $contraseña, $carpetaDestino);
+    $queryFormateada -> bind_param("iss", $telefono, $contraseña, $avatar);
     $seHaEjecutadoLaQuery = $queryFormateada -> execute();
     $conexion -> close();
 

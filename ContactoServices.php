@@ -14,6 +14,7 @@ function conectarBD() {
 
     //comprobar si se realiza la conexion mediante mysqli
     if (!$conexion->connect_error) {
+        echo "Conexion exitosa";
         return $conexion;
     } else {
         die("Error al conectar: " . $conexion->connect_error);

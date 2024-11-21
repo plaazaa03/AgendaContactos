@@ -19,7 +19,7 @@
 <body>
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        require_once('UsuarioService.php');
+        require_once('UsuariosServices.php');
         $telefono = $_POST['telefono'];
         $contraseña = $_POST['password'];
         $avatar = $_POST['avatar'];
@@ -38,19 +38,19 @@
         }
 
         // Mover el archivo
-        move_uploaded_file($avatarTmp, $carpetaDestino);
+        move_uploaded_file($avatarTmp, $nombreArchivo);
 
         if (guardarContacto($telefono, $contraseña, $carpetaDestino)) {
             echo "Contacto guardado con exito";
             header("Location: Login.php");
         } else {
-            echo "No se ha podido registrar el contacto";
+            echo "<p id='error'>No se ha podido registrar el contacto</p>";
         }
 
     }
 
     ?>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div>
             <label for="telefono">Teléfono</label>
             <input type="tel" name="telefono" id="telefono" required>
@@ -60,8 +60,8 @@
             <input type="password" name="password" id="password" required>
         </div>
         <div>
-            <label for="avatar">Avatar</label>
-            <input type="file" name="avatar" id="avatar" accept="image/*" required>
+        <label for="avatar">Avatar:</label>
+        <input type="file" name="avatar" accept="image/*" id="avatar" required>
         </div>
         <input type="submit" value="Crear Contacto">
         <a href="Login.php">Volver al Login</a>
