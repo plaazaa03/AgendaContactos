@@ -24,7 +24,7 @@ function iniciarSesion($telefono, $contraseña) {
 
     $conexion = conectarBD();
 
-    $sql = "SELECT * FROM Usuario WHERE telefono = ? AND contraseña = ?";
+    $sql = "SELECT * FROM Usuario WHERE telefono = ? AND password = ?";
     $queryFormateada = $conexion -> prepare($sql);
     $queryFormateada -> bind_param("is", $telefono , $contraseña);
     $seHaEjecutadoLaQuery = $queryFormateada -> execute();
@@ -40,7 +40,7 @@ function iniciarSesion($telefono, $contraseña) {
     }
 }
 
-function guardarContacto($telefono, $contraseña, $avatar) {
+function guardarUsuario($telefono, $contraseña, $avatar) {
     $conexion = conectarBD();
 
     $sql = "INSERT INTO Usuario (telefono, password, avatar) VALUES (?, ?, ?)";
@@ -50,6 +50,22 @@ function guardarContacto($telefono, $contraseña, $avatar) {
     $conexion -> close();
 
     if ($seHaEjecutadoLaQuery) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function telefonoExistente($telefono) {
+    $conexion = conectarBD();
+
+    $sql = "SELECT * FROM Usuario WHERE telefono = ?";
+    $queryFormateada = $conexion -> prepare($sql);
+    $queryFormateada -> bind_param("s", $telefono);
+    $seHaEjecutadoLaQuery = $queryFormateada -> execute();
+    $resultado = $queryFormateada -> get_result();
+
+    if ($seHaEjecutadoLaQuery && $resultado -> num_rows == 1) {
         return true;
     } else {
         return false;

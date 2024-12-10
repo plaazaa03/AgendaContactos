@@ -21,15 +21,16 @@
     session_start();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        require_once("UsuarioServices.php");
+        require_once("UsuariosServices.php");
         $telefono = $_POST['telefono'];
-        $contraseña = $_POST['contraseña'];
+        $contraseña = $_POST['password'];
 
         $usuario = iniciarSesion($telefono, $contraseña);
 
         if ($usuario) {
             $_SESSION['usuario'] = $usuario;
-            header("Location: index.php");
+            echo "<p id='success'>Bienvenido " . $usuario->getTelefono() . "</p>";
+            header("Location: ListadoContactos.php");
             exit();
         } else {
             echo "<p id='error'>Telefono o contraseña incorrectas</p>";
