@@ -23,7 +23,7 @@
             <ul id="lista-contactos">
                 <?php
                 // Obtener los contactos de la base de datos
-                require_once("ContactosServices.php");
+                require_once("ContactoServices.php");
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     $buscar = $_GET['buscar'];
                     $contactos = obtenerContactosPorBusqueda($buscar);
@@ -76,7 +76,7 @@
         $telefono = $_POST['telefono'];
         $foto = $_FILES['foto'];
         $id_usuario = $_POST['id_usuario'];
-
+        
         // Verificar si el teléfono ya existe
         if (telefonoExistente($telefono)) {
             echo "<p id='error'>El teléfono ya existe</p>";
