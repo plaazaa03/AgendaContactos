@@ -58,7 +58,7 @@ function obtenerContactosPorBusqueda($buscar) {
 
 function obtenerContactos() {
     $conexion = conectarBD();
-    $sql = "SELECT * FROM Contactos";
+    $sql = "SELECT * FROM Contactos WHERE idUsuario = ?";
     $queryFormateado = $conexion->prepare($sql);
     $seHaEjecutadoLaQuery = $queryFormateado -> execute();
     $resultado = $queryFormateado -> get_result();
