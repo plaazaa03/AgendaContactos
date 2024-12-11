@@ -1,41 +1,116 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Lista de Contactos</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='contactos.css'>
-</head>
-
 <?php
-require_once("ContactoServices.php");
-require_once("Contacto.php");
-require_once("Usuario.php");
+require_once 'ContactoServices.php';
+require_once 'Usuario.php';
+require_once 'Contacto.php';
 session_start();
-if (!isset($_SESSION['usuario'])) {
-    header("Location: Login.php");
-    exit();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST['nombre'])) {
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $telefono = $_POST['telefono'];
+        $foto = $_FILES['avatar'];
+
+        if (isset($_SESSION['usuario'])) {
+            $idUsuario = $_SESSION['usuario']->getId();
+           
+
+            // Procesar la foto
+            $nombreArchivo = $foto['name'];
+            $rutaCarpeta = "img";
+            $rutaFoto = "$rutaCarpeta/$nombreArchivo";
+
+            if (!is_dir($rutaCarpeta)) {
+                mkdir($rutaCarpeta, 0777, true); // Crear la carpeta si no existe
+            }
+            
+
+            if (move_uploaded_file($foto['tmp_name'], $rutaFoto)) {
+                // Guardar el contacto
+                $crear = guardarContacto($nombre, $apellidos, $telefono, $rutaFoto, $idUsuario);
+                if ($crear) {
+                    echo "<div class='success'>¡Enhorabuena! Contacto creado con éxito.</div>";
+                } else {
+                    echo "<div class='error'>Algo ha ido mal al crear el contacto.</div>";
+                }
+            } else {
+                echo "<div class='error'>Error al subir la foto.</div>";
+            }
+        } else {
+            echo "<div class='error'>Error: No se ha encontrado el ID del usuario.</div>";
+        }
+    }
 }
+
+if (isset($_SESSION['usuario'])) {
+    $idUsuario = $_SESSION['usuario']->getId();
+    $contactos = obtenerContactos($idUsuario);
+    $avatar = $_SESSION['usuario']->getAvatar();
+
+   
+    $terminoBusqueda = isset($_POST['busqueda']) ? trim($_POST['busqueda']) : '';
+
+
+    if ($terminoBusqueda !== '') {
+        $contactosFiltrados = [];
+        foreach ($contactos as $contacto) {
+            if (stripos($contacto->getNombre(), $terminoBusqueda) !== false) {
+                $contactosFiltrados[] = $contacto;
+            }
+        }
+      
+        $contactos = $contactosFiltrados;
+    }
 ?>
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Contactos</title>
+    <link rel="stylesheet" href="contactos.css">
+</head>
 <body>
     <header>
-        <div id="img-ico">
-            <img src="img/icono.png" alt="">
-        </div>
-        <h1>Lista de Contactos</h1>
+        <h1>Mis Contactos<div class="avatar"><img src="<?php echo $avatar?>"></div></h1>
     </header>
-    <form action="" method="GET">
-        <input type="text" name="buscar" placeholder="Buscar contacto">
-        <button type="submit">Buscar</button>
-    </form>
-    <!-- Creamos el botón para abrir el diálogo -->
-    <button onclick="document.getElementById('dialogoCrear').showModal()">Crear Contacto</button>
+    <main>
+        <section class="busqueda">
+            <form method="POST" action="">
+                <input type="text" name="busqueda" placeholder="Buscar por nombre" value="<?php echo $terminoBusqueda; ?>">
+                <button type="submit">Buscar</button>
+            </form>
+            <div class="centro">
+            <button onclick="document.getElementById('dialogoCrear').showModal()">Crear Nuevo Contacto</button>
+        </div>
+        </section>
 
-    <!-- Creamos el diálogo -->
-    <dialog id="dialogoCrear">
+        <article class="lista-contactos">
+            <?php if (empty($contactos)): ?>
+                <p>No tienes contactos guardados.</p>
+            <?php else: ?>
+                <ul>
+                    <?php foreach ($contactos as $contacto): ?>
+                        <li>
+                            <img src="<?php echo $contacto->getFoto(); ?>"class="foto-contacto">
+                            <div class="info-contacto">
+                                <h2><?php echo $contacto->getNombre(); ?></h2>
+                                <p>Teléfono: <?php echo $contacto->getTelefono(); ?></p>
+                                <a href="detalles.php?foto=<?php echo $contacto->getFoto(); ?>&nombre=<?php echo $contacto->getNombre(); ?>">Detalles</a>
+
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </article>
+
+        <!-- Botón para abrir el diálogo de creación de contacto -->
+
+
+        <!-- Diálogo para crear nuevo contacto -->
+        <dialog id="dialogoCrear">
             <h3>Crear Nuevo Contacto</h3>
             <form method="post" action="" enctype="multipart/form-data">
                 <label for="nombre">Nombre:</label>
@@ -55,67 +130,14 @@ if (!isset($_SESSION['usuario'])) {
             </form>
         </dialog>
 
-    <ul id="lista-contactos">
-        <?php
-        // Obtener los contactos de la base de datos
-        require_once("ContactoServices.php");
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $buscar = $_GET['buscar'];
-            $contactos = obtenerContactosPorBusqueda($buscar);
-        } else {
-            $contactos = obtenerContactos();
-        }
-
-        // Mostrar los contactos
-        if (count($contactos) > 0) {
-            foreach ($contactos as $contacto) {
-                echo "<li>";
-                echo "<h3>" . $contacto['nombre'] . " " . $contacto['apellidos'] . "</h3>";
-                echo "<p>Telefono: " . $contacto['telefono'] . "</p>";
-                if ($contacto['foto'] != '') {
-                    echo "<img src='" . $contacto['foto'] . "' alt='Foto'>";
-                }
-                echo "</li>";
-            }
-        } else {
-            echo "<p>No hay contactos.</p>";
-        }
-        ?>
-    </ul>
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (!empty($_POST['nombre'])) {
-            $nombre = $_POST['nombre'];
-            $apellidos = $_POST['apellidos'];
-            $telefono = $_POST['telefono'];
-            $foto = $_FILES['avatar'];
-    
-            if (isset($_SESSION['usuario'])) {
-                $idUsuario = $_SESSION['usuario']->getId();
-               
-    
-                // Procesar la foto
-                $nombreArchivo = $foto['name'];
-                $rutaCarpeta = "img";
-                $rutaFoto = "$rutaCarpeta/$nombreArchivo";
-    
-                if (move_uploaded_file($foto['tmp_name'], $rutaFoto)) {
-                    // Guardar el contacto
-                    $crear = guardarContacto($nombre, $apellidos, $telefono, $rutaFoto, $idUsuario);
-                    if ($crear) {
-                        echo "<div class='success'>¡Enhorabuena! Contacto creado con éxito.</div>";
-                    } else {
-                        echo "<div class='error'>Algo ha ido mal al crear el contacto.</div>";
-                    }
-                } else {
-                    echo "<div class='error'>Error al subir la foto.</div>";
-                }
-            } else {
-                echo "<div class='error'>Error: No se ha encontrado el ID del usuario.</div>";
-            }
-        }
-    }
-    ?>
+    </main>
 </body>
+</html>
 
-</html
+<?php
+} else {
+    // Redirigir al usuario a la página de inicio de sesión si no está autenticado
+    header('Location: login.php');
+    exit();
+}
+?>

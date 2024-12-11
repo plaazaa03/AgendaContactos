@@ -1,5 +1,5 @@
 <?php
-require_once "Contacto.php";
+require_once 'Contacto.php';
 
 function conectarBD() {
     //crear variables con la informacion para la conexion
@@ -19,50 +19,46 @@ function conectarBD() {
     }
 }
 
-
-function guardarContacto($telefono, $nombre, $apellidos, $foto, $idUsuario)
-{
+function guardarContacto( $nombre, $apellidos, $telefono, $foto, $idUsuario) {
     $conexion = conectarBD();
-    $sql = "INSERT INTO contactos (nombre, apellidos, telefono, foto, idUsuario) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO Contactos (nombre, apellidos, telefono, foto, idUsuario) VALUES (?, ?, ?, ?, ?)";
     $queryFormateada = $conexion->prepare($sql);
     $queryFormateada->bind_param('ssisi',  $nombre, $apellidos, $telefono, $foto, $idUsuario);
     $todoBien = $queryFormateada->execute();
     $conexion->close();
     return $todoBien;
 }
-
-function obtenerContactosPorBusqueda($buscar) {
-    $conexion = conectarBD();
-    $sql = "SELECT * FROM Contactos WHERE telefono LIKE ? OR nombre LIKE ? OR apellidos LIKE ?";
-    $queryFormateado = $conexion->prepare($sql);
-    $queryFormateado->bind_param("sss", $buscar, $buscar, $buscar);
-    $seHaEjecutadoLaQuery = $queryFormateado->execute();
-    
-    if ($seHaEjecutadoLaQuery) {
-        $resultado = $queryFormateado->get_result();
-        $contactos = array();
-        while ($fila = $resultado->fetch_assoc()) {
-            $contactos[] = $fila;
-        }
-        return $contactos;
-    } else {
-        return array();
-    }
-}
-
-function obtenerContactos() {
+function obtenerContactos($idUsuario) {
     $conexion = conectarBD();
     $sql = "SELECT * FROM Contactos WHERE idUsuario = ?";
-    $queryFormateado = $conexion->prepare($sql);
-    $seHaEjecutadoLaQuery = $queryFormateado -> execute();
-    $resultado = $queryFormateado -> get_result();
+    $queryFormateada = $conexion->prepare($sql);
+    $queryFormateada->bind_param('i', $idUsuario);
+    $queryFormateada->execute();
+    $resultado = $queryFormateada->get_result();
+    $contactos = [];
 
-    if ($seHaEjecutadoLaQuery && $resultado -> num_rows == 1) {
-        return true;
-    } else {
-        return false;
+    while ($fila = $resultado->fetch_assoc()) {
+        $contactos[] = new Contacto(
+            $fila['id'],
+            $fila['nombre'],
+            $fila['apellidos'],
+            $fila['telefono'],
+            $fila['foto'],
+            $fila['idUsuario']
+        );
     }
-    
-}
 
-?>
+    $queryFormateada->close();
+    $conexion->close();
+    return $contactos;
+}
+function guardarMensaje($texto, $fechaEnvio, $idContacto) {
+    $conexion = conectarBD();
+    $sql = "INSERT INTO mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
+    $queryFormateada = $conexion->prepare($sql);
+    $queryFormateada->bind_param('ssi', $texto, $fechaEnvio, $idContacto);
+    $queryFormateada->execute();
+    $queryFormateada->close();
+    $conexion->close();
+    return true;
+}
