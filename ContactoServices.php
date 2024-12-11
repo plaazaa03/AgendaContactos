@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "Contacto.php";
 
 function conectarBD() {
@@ -21,20 +20,15 @@ function conectarBD() {
 }
 
 
-function guardarContacto($telefono, $nombre, $apellidos, $foto, $id_usuario)
+function guardarContacto($telefono, $nombre, $apellidos, $foto, $idUsuario)
 {
     $conexion = conectarBD();
-    $sql = "INSERT INTO Contactos (telefono, nombre, apellidos, foto, idUsuario) VALUES (?,?,?,?,?)";
-    $queryFormateado = $conexion->prepare($sql);
-    $queryFormateado->bind_param("ssssi", $telefono, $nombre, $apellidos, $foto, $id_usuario);
-    $seHaEjecutadoLaQuery = $queryFormateado->execute();
+    $sql = "INSERT INTO contactos (nombre, apellidos, telefono, foto, idUsuario) VALUES (?, ?, ?, ?, ?)";
+    $queryFormateada = $conexion->prepare($sql);
+    $queryFormateada->bind_param('ssisi',  $nombre, $apellidos, $telefono, $foto, $idUsuario);
+    $todoBien = $queryFormateada->execute();
     $conexion->close();
-
-    if ($seHaEjecutadoLaQuery) {
-        return true;
-    } else {
-        return false;
-    }
+    return $todoBien;
 }
 
 function obtenerContactosPorBusqueda($buscar) {

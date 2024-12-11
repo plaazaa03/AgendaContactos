@@ -32,27 +32,28 @@ if (!isset($_SESSION['usuario'])) {
         <button type="submit">Buscar</button>
     </form>
     <!-- Creamos el botón para abrir el diálogo -->
-    <button onclick="document.getElementById('dialog-crear-contacto').showModal()">Crear Contacto</button>
+    <button onclick="document.getElementById('dialogoCrear').showModal()">Crear Contacto</button>
 
     <!-- Creamos el diálogo -->
-    <dialog id="dialog-crear-contacto">
-        <h2>Rellena los campos para crear un nuevo contacto</h2>
-        <form id="form-crear" action="" method="post" enctype="multipart/form-data">
+    <dialog id="dialogoCrear">
+            <h3>Crear Nuevo Contacto</h3>
+            <form method="post" action="" enctype="multipart/form-data">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" required>
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" name="apellidos" id="apellidos" required>
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" name="telefono" id="telefono" required>
-            <label for="foto">Foto:</label>
-            <input type="file" name="foto" accept="image/*" id="foto" required>
-           
-            <button id="crear-button" type="button">Crear Contacto</button>
-        </form>
-        <button id="cerrar-button"
-            onclick="document.getElementById('dialog-crear-contacto').close()">Cerrar</button>
-    </dialog>
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos" name="apellidos" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+
+                <label for="avatar">Foto (Avatar):</label>
+                <input type="file" name="avatar" accept="image/*" id="avatar" required>
+
+                <button type="submit">Crear Contacto</button>
+                <button type="button" onclick="document.getElementById('dialogoCrear').close()">Cancelar</button>
+            </form>
+        </dialog>
 
     <ul id="lista-contactos">
         <?php
@@ -82,40 +83,35 @@ if (!isset($_SESSION['usuario'])) {
         ?>
     </ul>
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        require_once("ContactosServices.php");
-        $nombre = $_POST['nombre'];
-        $apellidos = $_POST['apellidos'];
-        $telefono = $_POST['telefono'];
-        $foto = $_FILES['foto'];
-        $id_usuario = $_POST['id_usuario'];
-
-        // Verificar si el teléfono ya existe
-        if (telefonoExistente($telefono)) {
-            echo "<p id='error'>El teléfono ya existe</p>";
-        } else {
-            // Recuperar el nombre del archivo
-            $nombreArchivo = $foto['name'];
-
-            // Recuperar el temporal
-            $fotoTmp = $foto['tmp_name'];
-
-            // Ruta foto
-            $carpetaDestino = "img/$nombreArchivo";
-
-            if (file_exists($carpetaDestino)) {
-                mkdir($carpetaDestino, 0777, true);
-            }
-
-            // Mover el archivo
-            move_uploaded_file($fotoTmp, $carpetaDestino);
-
-            if (guardarContacto($telefono, $nombre, $apellidos, $carpetaDestino, $id_usuario)) {
-                echo "<p id='success'>Contacto creado con éxito</p>";
-                header("Location: ListaContactos.php");
-                exit();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!empty($_POST['nombre'])) {
+            $nombre = $_POST['nombre'];
+            $apellidos = $_POST['apellidos'];
+            $telefono = $_POST['telefono'];
+            $foto = $_FILES['avatar'];
+    
+            if (isset($_SESSION['usuario'])) {
+                $idUsuario = $_SESSION['usuario']->getId();
+               
+    
+                // Procesar la foto
+                $nombreArchivo = $foto['name'];
+                $rutaCarpeta = "img";
+                $rutaFoto = "$rutaCarpeta/$nombreArchivo";
+    
+                if (move_uploaded_file($foto['tmp_name'], $rutaFoto)) {
+                    // Guardar el contacto
+                    $crear = guardarContacto($nombre, $apellidos, $telefono, $rutaFoto, $idUsuario);
+                    if ($crear) {
+                        echo "<div class='success'>¡Enhorabuena! Contacto creado con éxito.</div>";
+                    } else {
+                        echo "<div class='error'>Algo ha ido mal al crear el contacto.</div>";
+                    }
+                } else {
+                    echo "<div class='error'>Error al subir la foto.</div>";
+                }
             } else {
-                echo "<p id='error'>No se ha podido crear el contacto</p>";
+                echo "<div class='error'>Error: No se ha encontrado el ID del usuario.</div>";
             }
         }
     }

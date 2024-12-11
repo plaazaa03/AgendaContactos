@@ -3,7 +3,6 @@ class Usuario {
     private $id;
     private $telefono;
     private $password;
-
     private $avatar;
 
     public function __construct($id, $telefono, $password, $avatar) {

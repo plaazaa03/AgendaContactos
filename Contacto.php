@@ -1,40 +1,43 @@
 <?php
 class Contacto {
-
     private $id;
-    private $telefono;
+    private $nombre;
     private $apellidos;
-    private $telefonoCon;
+    private $telefono;
     private $foto;
+    private $idUsuario;
 
-    public function __construct($id, $telefono, $apellidos, $telefonoCon, $foto) {
+    public function __construct($id, $nombre, $apellidos, $telefono, $foto, $idUsuario) {
         $this->id = $id;
-        $this->telefono = $telefono;
+        $this->nombre = $nombre;
         $this->apellidos = $apellidos;
-        $this->telefonoCon = $telefonoCon;
+        $this->telefono = $telefono;
         $this->foto = $foto;
+        $this->idUsuario = $idUsuario;
     }
 
-    private function getId() {
+    public function getId() {
         return $this->id;
     }
 
-    private function getTelefono() {
-        return $this->telefono;
+    public function getNombre() {
+        return $this->nombre;
     }
 
-    private function getApellidos() {
+    public function getApellidos() {
         return $this->apellidos;
     }
 
-    private function getTelefonoCon() {
-        return $this->telefonoCon;
+    public function getTelefono() {
+        return $this->telefono;
     }
 
-    private function getFoto() {
+    public function getFoto() {
         return $this->foto;
     }
+
+    public function getIdUsuario() {
+        return $this->idUsuario;
+    }
 }
-
-
 ?>
