@@ -137,7 +137,7 @@ if (isset($_SESSION['usuario'])) {
 <?php
 } else {
     // Redirigir al usuario a la página de inicio de sesión si no está autenticado
-    header('Location: login.php');
+    header('Location: Login.php');
     exit();
 }
 ?>

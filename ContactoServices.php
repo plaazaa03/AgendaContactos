@@ -1,5 +1,6 @@
 <?php
 require_once 'Contacto.php';
+require_once 'Mensajes.php';
 
 function conectarBD() {
     //crear variables con la informacion para la conexion
@@ -57,6 +58,39 @@ function guardarMensaje($texto, $fechaEnvio, $idContacto) {
     $sql = "INSERT INTO mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
     $queryFormateada = $conexion->prepare($sql);
     $queryFormateada->bind_param('ssi', $texto, $fechaEnvio, $idContacto);
+    $queryFormateada->execute();
+    $queryFormateada->close();
+    $conexion->close();
+    return true;
+}
+
+function obtenerMensajes($idContacto) {
+    $conexion = conexionBD();
+    $sql = "SELECT * FROM mensajes WHERE id_contacto = ?";
+    $queryFormateada = $conexion->prepare($sql);
+    $queryFormateada->bind_param('i', $idContacto);
+    $queryFormateada->execute();
+    $resultado = $queryFormateada->get_result();
+    $mensajes = [];
+
+    while ($fila = $resultado->fetch_assoc()) {
+        $mensaje = new Mensaje();
+        $mensaje->setId($fila['id']);
+        $mensaje->setTexto($fila['texto']);
+        $mensaje->setFechaEnvio($fila['fecha_envio']);
+        $mensajes[] = $mensaje;
+    }
+
+    $queryFormateada->close();
+    $conexion->close();
+    return $mensajes;
+}
+function enviarMensaje($idContacto, $mensaje) {
+    $conexion = conexionBD();
+    $sql = "INSERT INTO mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
+    $queryFormateada = $conexion->prepare($sql);
+    $fechaEnvio = date('Y-m-d H:i:s');
+    $queryFormateada->bind_param('ssi', $mensaje, $fechaEnvio, $idContacto);
     $queryFormateada->execute();
     $queryFormateada->close();
     $conexion->close();
