@@ -97,8 +97,7 @@ if (isset($_SESSION['usuario'])) {
                             <div class="info-contacto">
                                 <h2><?php echo $contacto->getNombre(); ?></h2>
                                 <p>Teléfono: <?php echo $contacto->getTelefono(); ?></p>
-                                <a href="detalles.php?foto=<?php echo $contacto->getFoto(); ?>&nombre=<?php echo $contacto->getNombre(); ?>">Detalles</a>
-
+                                <a href="detalles.php?id=<?php echo $contacto->getId(); ?>">Detalles</a>
                             </div>
                         </li>
                     <?php endforeach; ?>

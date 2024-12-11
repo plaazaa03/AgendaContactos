@@ -55,7 +55,7 @@ function obtenerContactos($idUsuario) {
 }
 function guardarMensaje($texto, $fechaEnvio, $idContacto) {
     $conexion = conectarBD();
-    $sql = "INSERT INTO mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO Mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
     $queryFormateada = $conexion->prepare($sql);
     $queryFormateada->bind_param('ssi', $texto, $fechaEnvio, $idContacto);
     $queryFormateada->execute();
@@ -65,8 +65,8 @@ function guardarMensaje($texto, $fechaEnvio, $idContacto) {
 }
 
 function obtenerMensajes($idContacto) {
-    $conexion = conexionBD();
-    $sql = "SELECT * FROM mensajes WHERE id_contacto = ?";
+    $conexion = conectarBD();
+    $sql = "SELECT * FROM Mensajes WHERE id_contacto = ?";
     $queryFormateada = $conexion->prepare($sql);
     $queryFormateada->bind_param('i', $idContacto);
     $queryFormateada->execute();
@@ -86,8 +86,8 @@ function obtenerMensajes($idContacto) {
     return $mensajes;
 }
 function enviarMensaje($idContacto, $mensaje) {
-    $conexion = conexionBD();
-    $sql = "INSERT INTO mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
+    $conexion = conectarBD();
+    $sql = "INSERT INTO Mensajes (texto, fecha_envio, id_contacto) VALUES (?, ?, ?)";
     $queryFormateada = $conexion->prepare($sql);
     $fechaEnvio = date('Y-m-d H:i:s');
     $queryFormateada->bind_param('ssi', $mensaje, $fechaEnvio, $idContacto);
