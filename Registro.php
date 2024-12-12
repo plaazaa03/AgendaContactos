@@ -70,8 +70,12 @@
             <label for="avatar">Avatar:</label>
             <input type="file" name="avatar" accept="image/*" id="avatar" required>
         </div>
-        <input type="submit" value="Crear Contacto">
-        <a href="Login.php">Volver al Login</a>
+
+        <div class="form-buttons">
+            <input type="submit" value="Crear Contacto">
+            <a href="Login.php">Volver al Login</a>
+        </div>
+        
     </form>
 
     <footer>

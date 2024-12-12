@@ -7,7 +7,7 @@ function conectarBD() {
     $host = "localhost";
     $bd = "AgendaContactos";
     $username = "root";
-    $password = "";
+    $password = "root";
 
     //crear la conexion mediante mysqli
     $conexion = new mysqli($host, $username, $password, $bd);
@@ -24,7 +24,7 @@ function iniciarSesion($telefono, $contraseña) {
 
     $conexion = conectarBD();
 
-    $sql = "SELECT * FROM Usuario WHERE telefono = ? AND password = ?";
+    $sql = "SELECT * FROM usuarios WHERE telefono = ? AND password = ?";
     $queryFormateada = $conexion -> prepare($sql);
     $queryFormateada -> bind_param("is", $telefono , $contraseña);
     $seHaEjecutadoLaQuery = $queryFormateada -> execute();
@@ -43,7 +43,7 @@ function iniciarSesion($telefono, $contraseña) {
 function guardarUsuario($telefono, $contraseña, $avatar) {
     $conexion = conectarBD();
 
-    $sql = "INSERT INTO Usuario (telefono, password, avatar) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO usuarios (telefono, password, avatar) VALUES (?, ?, ?)";
     $queryFormateada = $conexion -> prepare($sql);
     $queryFormateada -> bind_param("iss", $telefono, $contraseña, $avatar);
     $seHaEjecutadoLaQuery = $queryFormateada -> execute();
@@ -59,7 +59,7 @@ function guardarUsuario($telefono, $contraseña, $avatar) {
 function telefonoExistente($telefono) {
     $conexion = conectarBD();
 
-    $sql = "SELECT * FROM Usuario WHERE telefono = ?";
+    $sql = "SELECT * FROM usuarios WHERE telefono = ?";
     $queryFormateada = $conexion -> prepare($sql);
     $queryFormateada -> bind_param("s", $telefono);
     $seHaEjecutadoLaQuery = $queryFormateada -> execute();
