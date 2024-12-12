@@ -55,11 +55,14 @@ $mensajes = obtenerMensajes($contacto->getId());
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversación con <?php echo $contacto->getNombre(); ?></title>
+    <title>Detalles de <?php echo $contacto->getNombre(); ?></title>
     <link rel="stylesheet" href="contactos.css">
 </head>
 <body>
     <header>
+    <div id="img-ico">
+        <img src="img/icono.png" alt="">
+    </div>
         <h1>Conversación con <?php echo $contacto->getNombre(); ?></h1>
     </header>
     <main>
@@ -89,7 +92,7 @@ $mensajes = obtenerMensajes($contacto->getId());
 
             <div class="enviar-mensaje">
                 <form method="post" action="">
-                    <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..."></textarea>
+                    <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." rows="4" required></textarea>
                     <button type="submit">Enviar mensaje</button>
                 </form>
             </div>

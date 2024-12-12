@@ -1,28 +1,35 @@
 header {
     display: flex;
-    text-align: center;
+    justify-content: space-between;
     align-items: center;
-    margin: 0px;
-    padding: 20px;
     margin-bottom: 20px;
     background-color: #51B85A;
+    padding: 10px;
 }
 
 header h1 {
-    margin: 30px;
-    text-align: center;
+    margin: 0; 
     color: white;
-    font-size: 2.5em;
+    font-size: 1.5em;
+    text-align: center; 
+    margin-right: 100px;
 }
 
 header img {
     width: 100px;
     height: 100px;
-    border-radius: 0%;
+    border-radius: 50%;
+    margin-right: 20px;
 }
 
 #img-ico {
-    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+#img-ico img {
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 body {
@@ -31,14 +38,13 @@ body {
     padding: 0px;
 }
 
-/* Estilo de los formularios */
 form {
-    background-color: #ffffff;  /* Fondo blanco */
+    background-color: #ffffff;
     border-radius: 8px;
     padding: 25px;
     margin: 80px auto;
     width: 50%;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);  /* Sombra sutil */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 form input {
@@ -63,11 +69,9 @@ form input[type="submit"]:hover {
     background-color: #2a8c12;  
 }
 
-/* Enlaces */
 a {
     background-color: #25D366;
     color: white;
-    padding: 10px;
     border-radius: 5px;
     text-decoration: none;
 }
@@ -76,29 +80,25 @@ a:hover {
     background-color: #2a8c12;
 }
 
-/* Contenedor para los botones de enviar y enlace */
 .form-buttons {
     display: flex;
     justify-content: space-between;
-    gap: 10px; /* Espacio entre los botones */
-    margin-top: 20px; /* Margen superior */
+    gap: 10px;
 }
 
-/* Asegura que ambos botones tengan la misma altura */
 .form-buttons input[type="submit"],
 .form-buttons a {
-    width: 48%; /* Ancho consistente */
-    padding: 12px 20px; /* Padding consistente para igualar las alturas */
+    width: 48%;
+    padding: 12px 20px;
     font-size: 1.2em;
     font-weight: bold;
     text-align: center;
     display: inline-block;
     border-radius: 5px;
     cursor: pointer;
-    height: 50px; /* Altura consistente */
+    text-decoration: none;
 }
 
-/* Estilo del botón de enviar */
 .form-buttons input[type="submit"] {
     background-color: #25D366;
     color: white;
@@ -109,21 +109,18 @@ a:hover {
     background-color: #2a8c12;
 }
 
-/* Estilo del enlace */
 .form-buttons a {
-    background-color: #51B85A;
+    background-color: #25D366;
     color: white;
-    padding: 12px 20px; /* Asegura el mismo tamaño que el botón de envío */
     text-decoration: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 8px;
 }
 
 .form-buttons a:hover {
     background-color: #388E3C;
 }
-
-
 
 footer {
     text-align: center;
@@ -156,59 +153,280 @@ footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#dialog-crear-contacto {
-    width: 500px;
-    height: 300px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+#dialogoCrear {
+    background-color: #fcf5eb; 
+    position: fixed;
+}
+
+.dialogo-crear {
+    width: 400px;
     padding: 20px;
-}
-
-#dialog-crear-contacto h2 {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none;
     text-align: center;
-    margin-bottom: 20px;
 }
 
-#dialog-crear-contacto form {
+.dialogo-titulo {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+.dialogo-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #666666;
+    text-align: left;
+}
+
+.dialogo-form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.dialogo-form input:focus {
+    border-color: #25D366;
+    outline: none;
+    box-shadow: 0 0 4px rgba(37, 211, 102, 0.4);
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
-#dialog-crear-contacto label {
-    display: block;
-    margin-bottom: 10px;
+.btn-crear {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #25D366, #51B85A);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-#dialog-crear-contacto input[type="text"],
-#dialog-crear-contacto input[type="tel"],
-#dialog-crear-contacto input[type="file"] {
-    width: 100%;
-    height: 40px;
-    margin-bottom: 20px;
+.btn-crear:hover {
+    background: linear-gradient(135deg, #2a8c12, #388E3C);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cancelar {
+    flex: 1;
     padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #ffffff;
+    background: #bb1616;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background: #431212;
+    border-color: #bbbbbb;
+}
+
+.btn-crear-contacto {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #25D366, #51B85A); 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+.btn-crear-contacto:hover {
+    background: linear-gradient(135deg, #2a8c12, #388E3C); 
+}
+
+.lista-contactos ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.contacto-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
     border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-#dialog-crear-contacto button[type="submit"] {
-    width: 100%;
-    height: 40px;
-    background-color: #4CAF50;
-    color: #fff;
+.contacto-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.conversacion .mensajes {
+    margin: 20px 0;
     padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 300px;
+    overflow-y: auto;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #51B85A;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 2em;
+}
+
+.detalles-contacto {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ver-detalle {
+    padding: 10px;
+    
+}
+
+.avatar-info {
+    display: flex;
+    align-items: center;
+}
+
+.foto-contacto {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.info-contacto h2 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.info-contacto p {
+    color: #777;
+    margin-top: 5px;
+}
+
+.conversacion {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mensajes {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.mensaje {
+    background-color: #e6f7e6;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mensaje small {
+    display: block;
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 5px;
+}
+
+.enviar-mensaje form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.enviar-mensaje textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    resize: none;
+    width: 100%;
+    min-height: 100px;
+}
+
+.enviar-mensaje button {
+    background-color: #51B85A;
+    color: white;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
+    font-size: 1.2em;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#dialog-crear-contacto button[type="submit"]:hover {
-    background-color: #3e8e41;
+.enviar-mensaje button:hover {
+    background-color: #2a8c12;
 }
 
-#cerrar-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
+.error {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+textarea {
+    font-size: 1em;
+    margin-top: 10px;
 }

@@ -7,7 +7,7 @@ function conectarBD() {
     $host = "localhost";
     $bd = "AgendaContactos";
     $username = "root";
-    $password = "root";
+    $password = "";/*Poner root*/
 
     //crear la conexion mediante mysqli
     $conexion = new mysqli($host, $username, $password, $bd);
@@ -22,7 +22,8 @@ function conectarBD() {
 
 function guardarContacto( $nombre, $apellidos, $telefono, $foto, $idUsuario) {
     $conexion = conectarBD();
-    $sql = "INSERT INTO contactos (nombre, apellidos, telefono, foto, id_usuario) VALUES (?, ?, ?, ?, ?)";
+    //$sql = "INSERT INTO contactos (nombre, apellidos, telefono, foto, id_usuario) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO Contactos (nombre, apellidos, telefono, foto, idUsuario) VALUES (?, ?, ?, ?, ?)";
     $queryFormateada = $conexion->prepare($sql);
     $queryFormateada->bind_param('ssisi',  $nombre, $apellidos, $telefono, $foto, $idUsuario);
     $todoBien = $queryFormateada->execute();
@@ -31,7 +32,8 @@ function guardarContacto( $nombre, $apellidos, $telefono, $foto, $idUsuario) {
 }
 function obtenerContactos($idUsuario) {
     $conexion = conectarBD();
-    $sql = "SELECT * FROM contactos WHERE id_usuario = ?";
+    //$sql = "SELECT * FROM contactos WHERE id_usuario = ?";
+    $sql = "SELECT * FROM Contactos WHERE idUsuario = ?";
     $queryFormateada = $conexion->prepare($sql);
     $queryFormateada->bind_param('i', $idUsuario);
     $queryFormateada->execute();
