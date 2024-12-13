@@ -43,7 +43,7 @@
             }
 
             // Mover el archivo
-            move_uploaded_file($avatarTmp, $nombreArchivo);
+            move_uploaded_file($avatarTmp, $carpetaDestino);
 
             if (guardarUsuario($telefono, $contraseña, $carpetaDestino)) {
                 echo "Contacto guardado con exito";

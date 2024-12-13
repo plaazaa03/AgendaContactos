@@ -63,7 +63,8 @@ $mensajes = obtenerMensajes($contacto->getId());
     <div id="img-ico">
         <img src="img/icono.png" alt="">
     </div>
-        <h1>Conversación con <?php echo $contacto->getNombre(); ?></h1>
+        <h1>Conversación con <?php echo $contacto->getNombre(); ?>  </h1>
+        <a class="volver-index" href="ListadoContactos.php">Volver</a>
     </header>
     <main>
         <section class="detalles-contacto">
@@ -71,6 +72,7 @@ $mensajes = obtenerMensajes($contacto->getId());
                 <img src="<?php echo $contacto->getFoto(); ?>" class="foto-contacto" alt="Avatar de <?php echo $contacto->getNombre(); ?>">
                 <div class="info-contacto">
                     <h2><?php echo $contacto->getNombre(); ?></h2>
+                    <h2><?php echo $contacto->getApellidos(); ?></h2>
                     <p>Teléfono: <?php echo $contacto->getTelefono(); ?></p>
                 </div>
             </div>

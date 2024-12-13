@@ -60,6 +60,14 @@ if (isset($_SESSION['usuario'])) {
         }
 
         $contactos = $contactosFiltrados;
+
+
+    }
+
+    if(isset($_GET["logout"])) {
+        session_destroy();
+        header("Location: Login.php");
+        exit();
     }
     ?>
 
@@ -79,6 +87,7 @@ if (isset($_SESSION['usuario'])) {
                 <img src="img/icono.png" alt="">
             </div>
             <h1>Mis Contactos<div class="avatar"><img src="<?php echo $avatar; ?>" alt="Avatar"></div></h1>
+            <a class="cerrar-sesion" href="?logout">Cerrar Sesión</a>
         </header>
         <main>
             <section class="busqueda">
@@ -103,7 +112,7 @@ if (isset($_SESSION['usuario'])) {
                                 <img src="<?php echo $contacto->getFoto(); ?>" class="foto-contacto"
                                     alt="Foto de <?php echo $contacto->getNombre(); ?>">
                                 <div class="info-contacto">
-                                    <h2><?php echo $contacto->getNombre(); ?></h2>
+                                    <h2><?php echo $contacto->getNombre();?> <?php echo $contacto->getApellidos(); ?></h2>
                                     <p>Teléfono: <?php echo $contacto->getTelefono(); ?></p>
                                     <a class="ver-detalle" href="detalles.php?id=<?php echo $contacto->getId(); ?>">Detalles</a>
                                 </div>

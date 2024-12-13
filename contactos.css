@@ -8,11 +8,26 @@ header {
 }
 
 header h1 {
-    margin: 0; 
+    margin: 0;
     color: white;
     font-size: 1.5em;
-    text-align: center; 
+    text-align: center;
     margin-right: 100px;
+}
+
+.cerrar-sesion {
+    background-color: #020b05;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.cerrar-sesion:hover {
+    background-color: #2a8c12;
 }
 
 header img {
@@ -79,6 +94,21 @@ a {
 a:hover {
     background-color: #2a8c12;
 }
+
+.volver-index {
+    background-color: #020b05;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .volver-index:hover {
+    background-color: #2a8c12;
+  }
 
 .form-buttons {
     display: flex;
